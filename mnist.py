@@ -24,7 +24,13 @@ if torch.cuda.is_available():
 BATCH_SIZE = 64
 LEARNING_RATE = 0.001
 EPOCHS = 10
-DEVICE = torch.device("mps" if torch.mps.is_available() else "cpu")
+if torch.backends.mps.is_available():
+    DEVICE = torch.device("mps")
+elif torch.cuda.is_available():
+    DEVICE = torch.device("cuda")
+else:
+    DEVICE = torch.device("cpu")
+#DEVICE = torch.device("mps" if torch.mps.is_available() else "cpu")
 print(f"Using device: {DEVICE}")
 DATA_PATH = "datasets"
 MODEL_TYPE = "cnn"  # Default using CNN model, options: "cnn" or "nn"
